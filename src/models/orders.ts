@@ -1,7 +1,7 @@
 import Client from '../database';
 
 export type Order = {
-  id: number;
+  id?: number;
   user_id: number;
   status: string;
   products: Array<{ product_id: number; quantity: number }>;
@@ -43,7 +43,7 @@ export class OrderStore {
       });
 
       orders.forEach((order) => {
-        order.products = orderMap[order.id] || [];
+        order.products = order.id ? orderMap[order.id] : [];
       });
 
       return orders;
