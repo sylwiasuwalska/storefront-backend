@@ -66,21 +66,23 @@ Before submitting your project, spin it up and test each endpoint. If each one r
    Body:
 
    ```
-   {
-     "firstName": "user_name",
-     "lastName": "user_lastName",
-     "password": "password"
+    {
+        "firstName": "user_name",
+        "lastName": "user_lastName",
+        "password": "password"
      }
    ```
 
    b. Create product (token required)
    Body:
 
-   ````{
-    "name": "milk",
-    "price": "3540", // price in cents
-    "category": "milk"
-    }```
+   ````
+    {
+        "name": "milk",
+        "price": "3540", // price in cents
+        "category": "milk"
+    }
+    ```
 
    b. Create order (token required)
    Body:
@@ -91,14 +93,19 @@ Before submitting your project, spin it up and test each endpoint. If each one r
    "user_id": "1", //user must exist in db
    "status": "active",
    "products": [
-   {"product_id": 1, //product must exist in db
+   {
+   "product_id": 1, //product must exist in db
    "quantity": 10
    }
    ]
    }
 
-```
+   ```
 
- 5. If you wish to run test use `yarn run test` to start test database, run migrations and run tests.
+   ```
+
+5. If you wish to run test use `yarn run test` to start test database, run migrations and run tests.
+
+```
 
 ```
