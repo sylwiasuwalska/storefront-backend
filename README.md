@@ -58,10 +58,26 @@ Before submitting your project, spin it up and test each endpoint. If each one r
 
 ## Running project
 
-1. Run `docker compose up` to start container with database
-2. Run `db-migrate up` to run migrations
-3. Run `yarn run start` to build project and start server on port 3000
-4. Add data through endpoints (according to `REQUIREMENTS.md`):
+1. Create `.env` file with variables (this is public only for the need of project submission)
+
+   ```
+   POSTGRES_DB=store
+   POSTGRES_TEST_DB=store_test
+   POSTGRES_USER=app_user
+   POSTGRES_PASSWORD=password123db
+   POSTGRES_HOST=127.0.0.1
+   POSTGRES_PORT=6543
+   ENV=dev
+   PEPPER=this_is_some_pepper
+   SALT_ROUNDS=10
+   TOKEN=this_is_some_secret_token
+   ```
+
+2. Run `docker compose up` to start container with database on port 6543
+3. Run `yarn install` to install dependencies from `package.json`
+4. Run `db-migrate up` to run migrations
+5. Run `yarn run start` to build project and start server on port 3000
+6. Add data through endpoints (according to `REQUIREMENTS.md`):
    a. Crate user, copy token from response and set it in header as:`Authorization: Bearer <token here>`
    Body:
 
@@ -102,4 +118,4 @@ Before submitting your project, spin it up and test each endpoint. If each one r
 
    ```
 
-5. If you wish to run test use `yarn run test` to start test database, run migrations and run tests.
+7. If you wish to run test use `yarn run test` to start test database, run migrations and run tests.
