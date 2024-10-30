@@ -26,19 +26,23 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ### Orders
 
-- Current Order by user: orders/:user_id [GET] [token required]
+- Current Order by user: orders/current/:user_id [GET] [token required]
   - Retrieves the current active order for a specific user by their ID. Requires authentication.
+- Create order: orders/ [POST] [token required]
+  - Add new order. Requires authentication.
 
 ## Data Shapes
 
 ### Product
 
-Table: Products (id:number, name:string, price:number, category:string)
+Table: products (id:number, name:string, price:number, category:string)
 
 ### User
 
-Table: Users (id:number, first_name:string, last_name:string, password:string)
+Table: users (id:number, first_name:string, last_name:string, password:string)
 
 ### Orders
 
-Table: Orders (id:number, products:Array<{ product_id: number [foreign key to Products table], quantity: number }>, user_id:number [foreign key to Users table], status:string)
+Table: orders (id:number, user_id:number [foreign key to Users table],status:string)
+
+Table: ordered_products (order_id:number, product_id:number [foreign key to Products table], quantity:number)
