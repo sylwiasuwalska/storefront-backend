@@ -24,7 +24,7 @@ export class ProductStore {
     }
   }
 
-  async show(id: string): Promise<Product> {
+  async show(id: number): Promise<Product> {
     try {
       const sql = 'SELECT * FROM products WHERE id=($1)';
 
@@ -43,7 +43,7 @@ export class ProductStore {
   async create(product: Omit<Product, 'id'>): Promise<Product> {
     try {
       const sql =
-        'INSERT INTO products (name, price, category) VALUES($1, $2, $3, $4) RETURNING *';
+        'INSERT INTO products (name, price, category) VALUES($1, $2, $3) RETURNING *';
 
       const connection = await Client.connect();
 

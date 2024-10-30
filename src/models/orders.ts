@@ -8,76 +8,37 @@ export type Order = {
 };
 
 export class OrderStore {
-  async index(): Promise<Order[]> {
+  async showCurrent(user_id: number): Promise<Order> {
     try {
-      const connection = await Client.connect();
-
-      const sqlOrders = 'SELECT * FROM orders';
-      const sqlProducts =
-        'SELECT order_id, product_id, quantity FROM ordered_products';
-
-      const ordersResult = await connection.query<Order>(sqlOrders);
-      const productsResult = await connection.query<{
-        order_id: number;
-        product_id: number;
-        quantity: number;
-      }>(sqlProducts);
-
-      connection.release();
-
-      const orders = ordersResult.rows;
-      const products = productsResult.rows;
-
-      const orderMap: {
-        [key: number]: Array<{ product_id: number; quantity: number }>;
-      } = {};
-
-      products.forEach((product) => {
-        if (!orderMap[product.order_id]) {
-          orderMap[product.order_id] = [];
-        }
-        orderMap[product.order_id].push({
-          product_id: product.product_id,
-          quantity: product.quantity,
-        });
-      });
-
-      orders.forEach((order) => {
-        order.products = order.id ? orderMap[order.id] : [];
-      });
-
-      return orders;
-    } catch (error) {
-      throw new Error(`Cannot get orders: ${error}.`);
-    }
-  }
-
-  async show(id: string): Promise<Order> {
-    try {
-      const sqlOrder = 'SELECT * FROM orders WHERE id = $1';
+      const sqlOrder =
+        "SELECT * FROM orders WHERE user_id = $1 AND status = 'active' LIMIT 1";
       const sqlProducts =
         'SELECT product_id, quantity FROM ordered_products WHERE order_id = $1';
 
       const connection = await Client.connect();
 
-      const orderResult = await connection.query<Order>(sqlOrder, [id]);
+      const orderResult = await connection.query<Omit<Order, 'products'>>(
+        sqlOrder,
+        [user_id]
+      );
+      if (orderResult.rows.length === 0) {
+        connection.release();
+        throw new Error(`Order with user_id ${user_id} not found`);
+      }
+      const order = orderResult.rows[0];
+
       const productsResult = await connection.query<{
         product_id: number;
         quantity: number;
-      }>(sqlProducts, [id]);
+      }>(sqlProducts, [order.id]);
 
       connection.release();
 
-      if (orderResult.rows.length === 0) {
-        throw new Error(`Order with id ${id} not found`);
-      }
+      const products = productsResult.rows;
 
-      const order = orderResult.rows[0];
-      order.products = productsResult.rows;
-
-      return order;
+      return { ...order, products };
     } catch (err) {
-      throw new Error(`Could not find Order ${id}. Error: ${err}`);
+      throw new Error(`Could not find Order ${user_id}. Error: ${err}`);
     }
   }
 

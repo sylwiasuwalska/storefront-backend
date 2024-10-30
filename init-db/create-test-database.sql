@@ -1,0 +1,2 @@
+CREATE DATABASE store_test;
+GRANT ALL PRIVILEGES ON DATABASE store_test TO app_user;

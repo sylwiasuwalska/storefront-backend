@@ -1,15 +1,11 @@
 import express, { Request, Response } from 'express';
 import { Order, OrderStore } from '../models/orders';
+import verifyAuthToken from '../middlewares/authMiddleware';
 
 const store = new OrderStore();
 
-const index = async (_req: Request, res: Response) => {
-  const orders = await store.index();
-  res.json(orders);
-};
-
-const show = async (req: Request, res: Response) => {
-  const order = await store.show(req.params.id);
+const showCurrent = async (req: Request, res: Response) => {
+  const order = await store.showCurrent(Number(req.params.user_id));
   res.json(order);
 };
 
@@ -21,6 +17,10 @@ const create = async (req: Request, res: Response) => {
       products: req.body.products,
     };
 
+    if (order.status != 'active' && order.status != 'complete') {
+      throw new Error(`Invalid status`);
+    }
+
     const newOrder = await store.create(order);
     res.json(newOrder);
   } catch (err) {
@@ -30,9 +30,8 @@ const create = async (req: Request, res: Response) => {
 };
 
 const orderRoutes = (app: express.Application) => {
-  app.get('/orders', index);
-  app.get('/orders/:id', show);
-  app.post('/orders', create);
+  app.get('/orders/current/:user_id', verifyAuthToken, showCurrent);
+  app.post('/orders', verifyAuthToken, create);
 };
 
 export default orderRoutes;

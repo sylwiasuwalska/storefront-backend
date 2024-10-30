@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Product, ProductStore } from '../models/products';
+import verifyAuthToken from '../middlewares/authMiddleware';
 
 const store = new ProductStore();
 
@@ -9,7 +10,7 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
-  const product = await store.show(req.params.id);
+  const product = await store.show(Number(req.params.id));
   res.json(product);
 };
 
@@ -32,7 +33,7 @@ const create = async (req: Request, res: Response) => {
 const productRoutes = (app: express.Application) => {
   app.get('/products', index);
   app.get('/products/:id', show);
-  app.post('/products', create);
+  app.post('/products', verifyAuthToken, create);
 };
 
 export default productRoutes;
