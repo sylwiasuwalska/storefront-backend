@@ -19,9 +19,9 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 - Index: users/ [GET] [token required]
   - Retrieves a list of all users. Requires authentication.
-- Show: users/:id [GET] [token required]
+  - Show: users/:id [GET] [token required]
   - Retrieves details of a specific user by their ID. Requires authentication.
-- Create: users/ [POST] [token required]
+  - Create: users/ [POST] [token required]
   - Creates a new user. Requires authentication.
 
 ### Orders
