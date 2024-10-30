@@ -1,3 +1,4 @@
+import { cleanupDatabase } from '../../cleanupDatabase';
 import { Order, OrderStore } from '../orders';
 import { Product, ProductStore } from '../products';
 import { User, UserStore } from '../users';
@@ -7,6 +8,10 @@ const productStore = new ProductStore();
 const userStore = new UserStore();
 
 describe('Order Model', () => {
+  afterAll(async () => {
+    await cleanupDatabase();
+  });
+
   it('should have a showCurrent method', () => {
     expect(store.showCurrent).toBeDefined();
   });

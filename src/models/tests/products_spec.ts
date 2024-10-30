@@ -1,8 +1,13 @@
+import { cleanupDatabase } from '../../cleanupDatabase';
 import { Product, ProductStore } from '../products';
 
 const store = new ProductStore();
 
 describe('Product Model', () => {
+  afterAll(async () => {
+    await cleanupDatabase();
+  });
+
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
