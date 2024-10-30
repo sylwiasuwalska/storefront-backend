@@ -76,18 +76,18 @@ Before submitting your project, spin it up and test each endpoint. If each one r
    b. Create product (token required)
    Body:
 
-   ````
+   ```
     {
         "name": "milk",
         "price": "3540", // price in cents
         "category": "milk"
     }
-    ```
+   ```
 
    b. Create order (token required)
    Body:
 
-   ````
+   ```
 
    {
    "user_id": "1", //user must exist in db
@@ -102,10 +102,4 @@ Before submitting your project, spin it up and test each endpoint. If each one r
 
    ```
 
-   ```
-
 5. If you wish to run test use `yarn run test` to start test database, run migrations and run tests.
-
-```
-
-```
