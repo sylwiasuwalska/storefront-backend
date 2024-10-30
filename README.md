@@ -90,14 +90,14 @@ Before submitting your project, spin it up and test each endpoint. If each one r
    ```
 
    {
-   "user_id": "1", //user must exist in db
-   "status": "active",
-   "products": [
-   {
-   "product_id": 1, //product must exist in db
-   "quantity": 10
-   }
-   ]
+        "user_id": "1", //user must exist in db
+        "status": "active",
+        "products": [
+                {
+                "product_id": 1, //product must exist in db
+                "quantity": 10
+                }
+        ]
    }
 
    ```
