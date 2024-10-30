@@ -5,8 +5,13 @@ import verifyAuthToken from '../middlewares/authMiddleware';
 const store = new OrderStore();
 
 const showCurrent = async (req: Request, res: Response) => {
-  const order = await store.showCurrent(Number(req.params.user_id));
-  res.json(order);
+  try {
+    const order = await store.showCurrent(Number(req.params.user_id));
+    res.json(order);
+  } catch (err) {
+    res.status(400);
+    res.json(err);
+  }
 };
 
 const create = async (req: Request, res: Response) => {
